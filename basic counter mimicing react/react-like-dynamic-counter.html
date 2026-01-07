@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="container"></div>
+  </body>
+
+  <script>
+    //State
+    let State = {
+      count: 0,
+    };
+    //this is how react does it:
+    //const [count, setcount] = useState(0); - useState is a hook that sets initial state (count) to 0 and tells React to Track this state Internally
+
+    //(setCount) is the state updater function. update to state should be passed through this for React to work
+
+    //whenever setCount is called with a new state, it Updates the State and triggers React
+
+    //to re render the component (parent function) to create a new Virtual DOM and diffs against the old Virtual DOM
+
+    //And finally updates only the changes in the real DOM
+
+    function updateComponent() {
+      State.count++; //on state Update: setCount(count + 1): triggers react
+      buttonComponentReRenderer(State);
+    }
+
+    //Re-renderer : REACT DOM handles this Part
+    function buttonComponentReRenderer(obj) {
+      document.getElementById("container").innerHTML = "";
+      const button = buttonComponent(obj.count);
+      document.getElementById("container").appendChild(button);
+    }
+
+    //component: create a function that returns the component(that returns XML element) and pass in args like state and state updater func(for the updation logic) as attributes of the component
+    function buttonComponent(count) {
+      const component = document.createElement("button");
+      component.setAttribute("onclick", "updateComponent()");
+      component.setAttribute("id", "btn");
+      component.innerHTML = `Counter ${count}`;
+
+      return component;
+    }
+
+    buttonComponentReRenderer(State); //The Re-renderer takes the State as arg
+  </script>
+</html>
